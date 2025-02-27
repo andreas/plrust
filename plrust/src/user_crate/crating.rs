@@ -250,6 +250,9 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
 
         [dependencies]
         pgrx = { version = trusted_pgrx_version, package = "plrust-trusted-pgrx" }
+        home = { version = "=0.5.9", forced = true }
+        litemap = { version = "=0.7.4", forced = true }
+        zerofrom = { version = "=0.1.5", forced = true }
 
         /* User deps added here */
 
