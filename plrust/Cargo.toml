@@ -31,7 +31,7 @@ force_enable_x86_64_darwin_generations = []
 cfg-if = "1" # platform conditional helper
 once_cell = "1.18.0" # polyfills a nightly feature
 semver = "1.0.20"
-home = "0.5.5" # where can we find cargo?
+home = "=0.5.5" # where can we find cargo?
 
 # working with our entry in pg_catalog.pg_proc
 base64 = "0.21.5"
@@ -63,8 +63,10 @@ proc-macro2 = "1"
 omnipath = "0.1.6"
 
 # overrides
-litemap = { version = "=0.7.4", forced = true }
-zerofrom = { version = "=0.1.5", forced = true }
+backtrace = { version = "=0.3.69" }
+idna_adapter = { version = "=1.2.0" }
+litemap = { version = "=0.7.4" }
+zerofrom = { version = "=0.1.5" }
 
 [target.'cfg(target_os="linux")'.dependencies]
 memfd = "0.6.4" # for anonymously writing/loading user function .so
