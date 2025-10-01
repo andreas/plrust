@@ -53,12 +53,7 @@ pub mod datum {
     pub use ::pgrx::pg_sys::Oid;
 }
 
-pub use fn_call::{fn_call, Arg, FnCallArg, FnCallError};
-pub mod fn_call {
-    pub use ::pgrx::fn_call::{
-        fn_call, fn_call_with_collation, Arg, FnCallArg, FnCallError, Result,
-    };
-}
+// Note: `pgrx::fn_call` is not available in all targeted pgrx versions
 
 #[doc(hidden)]
 pub mod fcinfo {

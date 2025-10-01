@@ -52,12 +52,37 @@ fi
 cargo update -p pgrx
 cargo fetch
 if [ "$CI" != true ]; then
-    # Attempt to get pgrx version from cargo tree. Looking for a pattern such as "pgrx v0.10.0"
-    PGRX_VERSION=$(cargo tree --depth 1 --package plrust | grep -E "\s*pgrx\s+v[0-9]+\.[0-9]+\.[0-9]+" | head -n 1 | cut -f2- -dv)
+    # Attempt to get pgrx info from cargo tree. Lines look like:
+    #   "pgrx v0.11.0" OR
+    #   "pgrx v0.11.0 (https://github.com/owner/pgrx?branch=branch-name#rev)"
+    PGRX_LINE=$(cargo tree --depth 1 --package plrust | grep -E "\s*pgrx\s+v[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)
 
-    if [ -z "$PGRX_VERSION" ]; then
+    if [ -z "$PGRX_LINE" ]; then
         echo "Could not determine pgrx version from 'cargo tree'!"
         exit 1
+    fi
+
+    # Always capture the semver for logs/fallback
+    PGRX_VERSION=$(echo "$PGRX_LINE" | sed -E 's/.*pgrx v([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+    # If present, capture the git URL inside parentheses
+    PGRX_URL=$(echo "$PGRX_LINE" | sed -n 's/.*(\(http[^)]*\)).*/\1/p')
+
+    if [ -n "$PGRX_URL" ]; then
+        git=$(echo "$PGRX_URL" | sed 's/[?#].*//')
+        branch=$(echo "$PGRX_URL" | sed -n 's/.*[?&]branch=\([^#&]*\).*/\1/p')
+
+        if [ -n "$branch" ]; then
+            echo "Installing cargo-pgrx from git '$git' (branch '$branch')"
+            cargo install cargo-pgrx \
+                --git "$git" \
+                --branch "$branch" \
+                --locked
+        else
+            echo "Installing cargo-pgrx from git '$git'"
+            cargo install cargo-pgrx \
+                --git "$git" \
+                --locked
+        fi
     else
         echo "Installing cargo-pgrx version $PGRX_VERSION"
         cargo install cargo-pgrx \
