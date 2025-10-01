@@ -253,7 +253,7 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
         home = { version = "=0.5.9" }
         idna_adapter = { version = "=1.2.0" }
         litemap = { version = "=0.7.4" }
-        yoke = { version = "=0.7.5", forced = true }
+        yoke = { version = "=0.7.5" }
         zerofrom = { version = "=0.1.5" }
 
         /* User deps added here */
@@ -261,6 +261,11 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
         [profile.release]
         opt-level = 3_usize
         panic = "unwind"
+
+        [patch.crates-io]
+        pest           = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
+        pest_derive    = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
+        pest_generator = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
     };
 
     // if the `PLRUST_TRUSTED_PGRX_OVERRIDE` environment variable is set at compile time
