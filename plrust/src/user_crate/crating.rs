@@ -253,6 +253,7 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
         home = { version = "=0.5.9", forced = true }
         litemap = { version = "=0.7.4", forced = true }
         zerofrom = { version = "=0.1.5", forced = true }
+        yoke = { version = "=0.7.5", forced = true }
 
         /* User deps added here */
 
