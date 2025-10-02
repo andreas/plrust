@@ -250,11 +250,11 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
 
         [dependencies]
         pgrx = { version = trusted_pgrx_version, package = "plrust-trusted-pgrx" }
-        home = { version = "=0.5.9" }
-        idna_adapter = { version = "=1.2.0" }
-        litemap = { version = "=0.7.4" }
-        yoke = { version = "=0.7.5" }
-        zerofrom = { version = "=0.1.5" }
+        home = "=0.5.9"
+        idna_adapter = "=1.2.0"
+        litemap = "=0.7.4"
+        yoke = "=0.7.5"
+        zerofrom = "=0.1.5"
 
         /* User deps added here */
 
@@ -263,9 +263,7 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
         panic = "unwind"
 
         [patch.crates-io]
-        pest           = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
-        pest_derive    = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
-        pest_generator = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
+        pest = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
     };
 
     // if the `PLRUST_TRUSTED_PGRX_OVERRIDE` environment variable is set at compile time
@@ -281,11 +279,12 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
     // ```
     if let Some(trusted_pgrx_override) = option_env!("PLRUST_TRUSTED_PGRX_OVERRIDE") {
         if let Some(toml::Value::Table(dependencies)) = toml.get_mut("dependencies") {
-            let new_dependencies = trusted_pgrx_override.parse::<toml::Table>().expect(
+            let override_table = trusted_pgrx_override.parse::<toml::Table>().expect(
                 "failed to parse new dependency block using `PLRUST_TRUSTED_PGRX_OVERRIDE`",
             );
-
-            *dependencies = new_dependencies;
+            for (key, value) in override_table {
+                dependencies.insert(key, value);
+            }
         }
     }
 

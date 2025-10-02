@@ -64,10 +64,11 @@ proc-macro2 = "1"
 omnipath = "0.1.6"
 
 # overrides
-backtrace = { version = "=0.3.69" }
-idna_adapter = { version = "=1.2.0" }
-litemap = { version = "=0.7.4" }
-zerofrom = { version = "=0.1.5" }
+backtrace = "=0.3.69"
+idna_adapter = "=1.2.0"
+litemap = "=0.7.4"
+zerofrom = "=0.1.5"
+writeable = "=0.5.5"
 
 [target.'cfg(target_os="linux")'.dependencies]
 memfd = "0.6.4" # for anonymously writing/loading user function .so
