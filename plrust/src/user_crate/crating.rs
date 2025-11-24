@@ -264,6 +264,7 @@ pub(crate) fn cargo_toml_template(crate_name: &str, version_feature: &str) -> to
 
         [patch.crates-io]
         pest = { git = "https://github.com/pest-parser/pest", tag = "v2.7.15" }
+        indexmap = { git = "https://github.com/indexmap-rs/indexmap", tag = "2.11.4" }
     };
 
     // if the `PLRUST_TRUSTED_PGRX_OVERRIDE` environment variable is set at compile time
